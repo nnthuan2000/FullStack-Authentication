@@ -1,11 +1,7 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider     = "prisma-client"
+  output       = "../generated/prisma"
+  moduleFormat = "cjs"
 }
 
 datasource db {
@@ -17,8 +13,8 @@ model Comment {
   text      String
   createdAt DateTime? @default(now()) @db.Timestamp(6)
   user_id   Int
-  user      User      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "comments_author_id_users_id_fk")
   post_id   Int
+  user      User      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "comments_author_id_users_id_fk")
   post      Post      @relation(fields: [post_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "comments_post_id_posts_id_fk")
 }
 
@@ -31,10 +27,10 @@ model Post {
   img       String?
   views     Int       @default(0)
   catSlug   String
-  cat       Category  @relation(fields: [catSlug], references: [slug])
   userEmail String
-  user      User      @relation(fields: [userEmail], references: [email])
   comments  Comment[]
+  cat       Category  @relation(fields: [catSlug], references: [slug])
+  user      User      @relation(fields: [userEmail], references: [email])
 }
 
 model User {
