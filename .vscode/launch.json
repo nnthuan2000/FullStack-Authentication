@@ -18,6 +18,12 @@
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}\\apps\\api\\src\\auth\\strategies\\local.strategy.ts",
       "outFiles": ["${workspaceFolder}/**/*.js"]
+    },
+    {
+      "name": "Next.js: debug server",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm dev"
     }
   ]
 }

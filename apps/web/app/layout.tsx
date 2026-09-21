@@ -1,10 +1,15 @@
+// apps/web/app/layout.tsx
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
+import AppBar from "@/components/ui/appBar";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+// Force dynamic rendering so layout checks session cookies on every request
+export const dynamic = "force-dynamic";
+
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,6 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("font-sans", geist.variable)}>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <AppBar />
         {children}
       </body>
     </html>

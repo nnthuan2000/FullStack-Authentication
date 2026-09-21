@@ -3,6 +3,8 @@
 import { redirect } from "next/navigation";
 import { BACKEND_URL } from "./constants";
 import { FormState, LoginFormSchema, SignupFormSchema } from "./type";
+import { createSession, deleteSession } from "./session";
+import { revalidatePath } from "next/cache";
 
 export async function signUp(
   state: FormState,
@@ -72,6 +74,18 @@ export async function signIn(
 
   const result = await response.json();
   //TODO: Create the session for authenticated User
+  await createSession({
+    user: {
+      id: result.id,
+      name: result.name,
+    },
+  });
 
-  console.log({ result });
+  redirect("/");
+}
+
+export async function signOut() {
+  await deleteSession();
+  revalidatePath("/", "layout"); // Invalidates root layout cache
+  redirect("/"); // Sends user to home page
 }
