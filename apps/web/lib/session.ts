@@ -7,6 +7,7 @@ export type Session = {
     id: string;
     name: string;
   };
+  accessToken: string;
 };
 
 const sessionKey = "session";
