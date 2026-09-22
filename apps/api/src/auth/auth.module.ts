@@ -6,24 +6,27 @@ import { PrismaModule } from 'src/prisma/prisma.module';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import jwtConfig from './config/jwt.config';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule, ConfigType } from '@nestjs/config';
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   imports: [
     ConfigModule.forFeature(jwtConfig),
+
     JwtModule.registerAsync({
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        secret: config.getOrThrow<string>('jwt.secret'),
+      inject: [jwtConfig.KEY],
+      useFactory: (config: ConfigType<typeof jwtConfig>) => ({
+        secret: config.secret,
         signOptions: {
-          expiresIn: `${config.getOrThrow<number>('jwt.expiration')}s`,
+          expiresIn: `${config.expiration}s`,
         },
       }),
     }),
+
     UserModule,
     PrismaModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy],
+  providers: [AuthService, LocalStrategy, JwtStrategy],
 })
 export class AuthModule {}

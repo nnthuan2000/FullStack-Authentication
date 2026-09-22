@@ -29,6 +29,7 @@
     "@nestjs/platform-express": "^11.0.1",
     "@types/passport-jwt": "^4.0.1",
     "argon2": "^0.45.1",
+    "joi": "^18.2.9",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
